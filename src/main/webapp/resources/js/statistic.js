@@ -59,13 +59,14 @@ $(function() {
             ]
         };
 
-        console.log(111);
-        new Chart(document.getElementById('chart').getContext('2d')).Bar(chartData, {
-            //scaleOverride: true,
-            //scaleSteps: 2500,
-            //scaleStepWidth: 1000,
-            //scaleFontColor: 'red'
-
-        });
+        new Chart(document.getElementById('chart').getContext('2d')).Bar(chartData);
     }
+
+    var addressPopover = $('.popover').popover({container :'body', trigger: 'focus'});
+    $('#address').unbind('focus').focus(function(e) {
+        $('#addressList').popover('show');
+    }).unbind('blur').blur(function(e) {
+        $('#addressList').popover('hide');
+    });
+
 });

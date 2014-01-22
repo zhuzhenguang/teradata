@@ -1,6 +1,8 @@
-body {padding-top: 50px;padding-bottom: 20px;}
-.display {margin: 40px 0;}
+body {padding-top: 50px;padding-bottom: 20px;font-family: "微软雅黑","Helvetica Neue",Helvetica,Arial,sans-serif;}
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {font-family: "微软雅黑","Helvetica Neue",Helvetica,Arial,sans-serif;}
+.display {margin: 20px 0;}
 a {cursor: pointer;}
+.search_condition {padding-top: 20px;}
 /*
 .chart-container {
     box-sizing: border-box;

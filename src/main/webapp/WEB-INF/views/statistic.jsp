@@ -29,9 +29,28 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container search_condition">
+        <form role="form" class="form-inline" action="#" id="searchForm">
+            <div class="form-group">
+                <h4>查询条件：</h4>
+            </div>
+            <div class="form-group">
+                <input placeholder="输入省的名称" class="form-control" name="address" id="address">
+            </div>
+            <input type="button" class="btn btn-success" id="search_button" value="查 询">
+        </form>
+
         <div class="display">
             <canvas id="chart" height="550" width="800"></canvas>
+        </div>
+    </div>
+
+    <div class="popover bottom" id="addressList">
+        <div class="arrow"></div>
+        <h3 class="popover-title">Popover bottom</h3>
+
+        <div class="popover-content">
+            <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
         </div>
     </div>
 
