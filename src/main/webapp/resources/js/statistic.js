@@ -5,23 +5,40 @@ $(function() {
     var data = {"from": "0", "rows": "10"};
 
     $.ajax({
-        url: ctx + "/statistic",
+        url: ctx + "/statistic/data",
         type: 'POST',
         data: JSON.stringify({"address": "上海", "page": data}),
         contentType: "application/json",
         dataType: "json"
     }).done(function(data) {
-            var i, l = data.length, userBody = $('table#product-list tbody');
+            console.log(data);
+            var topProducts = data['topProducts'], preProducts = data['preProducts'],
+                productKeys = data['productNames'], productNames = [],
+                topArray = [], preArray = [];
+            var i, l = productKeys.length;
             for (i = 0; i < l; i++) {
-                var tds = createTd(data[i]['businessNo']) +
-                    createTd(data[i]['name'], true) +
-                    createTd(data[i]['peoples']) +
-                    createTd(data[i]['totalSum']) +
-                    createTd(data[i]['totalProfit']);
-                userBody.append("<tr>" + tds + "</tr>");
+                var prop = productKeys[i];
+                topArray.push(topProducts[prop]['totalProfit']);
+                var preProduct = preProducts[prop];
+                if (preProduct) {
+                    preArray.push(preProduct['totalProfit']);
+                } else {
+                    preArray.push(0);
+                }
+                productNames.push(topProducts[prop]['name']);
             }
-            //console.log(data);
-            bindProductList();
+
+            /*for (var prop in topProducts) {
+                topArray.push(topProducts[prop]['totalProfit']);
+                var preProduct = preProducts[prop];
+                if (preProduct) {
+                    preArray.push(preProduct['totalProfit']);
+                } else {
+                    preArray.push(0);
+                }
+                productNames.push(topProducts[prop]['name']);
+            }*/
+            createChart(productNames, topArray, preArray);
         }
     );
 
@@ -42,6 +59,13 @@ $(function() {
             ]
         };
 
-        new Chart(document.getElementById('chart').getContext('2d')).Bar(chartData);
+        console.log(111);
+        new Chart(document.getElementById('chart').getContext('2d')).Bar(chartData, {
+            //scaleOverride: true,
+            //scaleSteps: 2500,
+            //scaleStepWidth: 1000,
+            //scaleFontColor: 'red'
+
+        });
     }
 });

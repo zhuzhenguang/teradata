@@ -20,7 +20,7 @@
                 <ul class="nav navbar-nav">
                     <li><a href="${ctx}">Home</a></li>
                     <li class="active"><a href="${ctx}/product">商品</a></li>
-                    <li><a href="statistic.jsp">统计</a></li>
+                    <li><a href="${ctx}/statistic">统计</a></li>
                 </ul>
             </div>
         </div>

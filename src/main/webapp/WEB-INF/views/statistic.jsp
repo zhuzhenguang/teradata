@@ -21,9 +21,9 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="product.html">商品</a></li>
-                    <li class="active"><a href="statistic.jsp">统计</a></li>
+                    <li><a href="${ctx}">Home</a></li>
+                    <li><a href="${ctx}/product">商品</a></li>
+                    <li class="active"><a href="${ctx}/statistic">统计</a></li>
                 </ul>
             </div>
         </div>
@@ -38,6 +38,6 @@
     <script src="${js}/jquery-1.10.2.min.js"></script>
     <script src="${js}/Chart.min.js"></script>
     <script src="${js}/bootstrap.min.js"></script>
-    <script src="${js}/custom.js"></script>
+    <script src="${js}/statistic.js"></script>
 </body>
 </html>

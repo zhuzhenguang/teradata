@@ -76,7 +76,7 @@ public class Product implements Serializable {
     }
 
     public Double getTotalProfit() {
-        return totalProfit;
+        return totalProfit != null && totalProfit < 0 ? 0 : totalProfit;
     }
 
     public void setTotalProfit(Double totalProfit) {
