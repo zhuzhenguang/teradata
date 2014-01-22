@@ -42,15 +42,10 @@
 
         <div class="display">
             <canvas id="chart" height="550" width="800"></canvas>
-        </div>
-    </div>
-
-    <div class="popover bottom" id="addressList">
-        <div class="arrow"></div>
-        <h3 class="popover-title">Popover bottom</h3>
-
-        <div class="popover-content">
-            <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
+            <div class="pull-right">
+                <div class="current_month">最近一个月</div>
+                <div class="previous_month">前一个月</div>
+            </div>
         </div>
     </div>
 

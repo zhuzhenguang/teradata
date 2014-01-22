@@ -15,9 +15,9 @@ public class Product implements Serializable {
     private String unit;
 
     /* 统计的结果 */
-    private Integer peoples;
-    private Double totalSum;
-    private Double totalProfit;
+    private Integer peoples = 0;
+    private Double totalSum = 0.0;
+    private Double totalProfit = 0.0;
 
     public String getBusinessNo() {
         return businessNo;
@@ -76,7 +76,7 @@ public class Product implements Serializable {
     }
 
     public Double getTotalProfit() {
-        return totalProfit != null && totalProfit < 0 ? 0 : totalProfit;
+        return totalProfit < 0 ? 0 : totalProfit;
     }
 
     public void setTotalProfit(Double totalProfit) {
