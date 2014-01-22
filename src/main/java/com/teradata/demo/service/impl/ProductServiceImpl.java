@@ -26,7 +26,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    //@Transactional(readOnly = true)
     public StatisticProducts findTopProductsByAddressMonth(String address, Page page) {
         DateTime maxDateTime = productDao.getMaxDay(address);
         String previousMonthDay = maxDateTime.minus(Period.months(1)).toString(DATE_STYLE);
@@ -35,10 +35,13 @@ public class ProductServiceImpl implements ProductService {
         StatisticProducts statisticProduct = new StatisticProducts();
         statisticProduct.setMaxMonth(maxMonthDay);
         statisticProduct.setPreviousMonth(previousMonthDay);
-        statisticProduct.setMaxTopProductList(productDao.findTopProductsByAddress(
-                address, page.getFrom(), page.getRows(), maxMonthDay));
-        statisticProduct.setPreviousProductList(productDao.findTopProductsByAddress(
-                address, page.getFrom(), page.getRows(), previousMonthDay));
+
+        List<Product> products = productDao.findTopProductsByAddress(
+                address, page.getFrom(), page.getRows(), maxMonthDay);
+        List<Product> preProducts = productDao.findPreMonthProductsByAddress(
+                address, previousMonthDay, products);
+        statisticProduct.setMaxTopProductList(products);
+        statisticProduct.setPreviousProductList(preProducts);
 
         return statisticProduct;
     }

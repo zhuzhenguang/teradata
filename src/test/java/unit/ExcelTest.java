@@ -32,7 +32,7 @@ import java.text.SimpleDateFormat;
  */
 public class ExcelTest {
     private static Logger logger = LoggerFactory.getLogger(ExcelTest.class);
-    private static final String EXCEL = "/Users/zhu/Development/workspace/teradata-demo/src/main/resources/demo.xlsx";
+    private static final String EXCEL = "F:\\self_workspace\\teradata\\src\\main\\resources\\demo.xlsx";
     private ApplicationContext context = new AnnotationConfigApplicationContext(Application.class);
 
     @Test

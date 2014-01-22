@@ -37,4 +37,13 @@ public interface ProductDao extends ExcelDao {
      * @return
      */
     DateTime getMaxDay(String address);
+
+    /**
+     * 获得前一个月的商品
+     *
+     * @param address
+     * @param preMonth
+     * @return
+     */
+    List<Product> findPreMonthProductsByAddress(String address, String preMonth, List<Product> products);
 }

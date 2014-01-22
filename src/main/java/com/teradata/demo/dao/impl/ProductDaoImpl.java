@@ -3,6 +3,8 @@ package com.teradata.demo.dao.impl;
 import com.teradata.demo.dao.ProductDao;
 import com.teradata.demo.entity.Product;
 import com.teradata.demo.entity.StatisticProducts;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
@@ -10,6 +12,7 @@ import org.springframework.jdbc.core.simple.ParameterizedSingleColumnRowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -30,11 +33,19 @@ public class ProductDaoImpl extends ExcelDaoImpl implements ProductDao {
     private static final String STATISTIC_MONTH = "SELECT MAX(SALEDATE) " +
             "FROM T_SALE S, T_USER U WHERE S.userbusinessno=U.businessno AND U.address=?";
 
-    private static final String STATISTIC_SQL = "SELECT P.name, sum(S.sum * S.count - P.sum * S.count) totalprofit " +
+    private static final String STATISTIC_SQL = "SELECT P.name, P.businessno, " +
+            "sum(S.sum * S.count - P.sum * S.count) totalprofit " +
             "FROM T_SALE S, T_PRODUCT P, T_USER U " +
             "WHERE S.SALEDATE LIKE ?||'%' and S.productbusinessno=P.businessno AND S.userbusinessno=U.businessno " +
             "AND U.address=? " +
-            "GROUP BY P.name order by totalprofit desc limit ?,?";
+            "GROUP BY P.businessno order by totalprofit desc limit ?,?";
+
+    private static final String STATISTIC_HISTORY_SQL = "SELECT P.name, P.businessno, " +
+            "sum(S.sum * S.count - P.sum * S.count) totalprofit " +
+            "FROM T_SALE S, T_PRODUCT P, T_USER U " +
+            "WHERE S.SALEDATE LIKE ?||'%' and S.productbusinessno=P.businessno AND S.userbusinessno=U.businessno " +
+            "AND U.address=? " +
+            "GROUP BY P.businessno ";
 
     @Override
     protected String getSQL() {
@@ -66,6 +77,7 @@ public class ProductDaoImpl extends ExcelDaoImpl implements ProductDao {
             public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
                 Product product = new Product();
                 product.setName(rs.getString("name"));
+                product.setBusinessNo(rs.getString("businessno"));
                 product.setTotalProfit(Math.round(rs.getDouble("totalprofit") * 100) / 100.00);
                 return product;
             }
@@ -79,6 +91,33 @@ public class ProductDaoImpl extends ExcelDaoImpl implements ProductDao {
         return DateTime.parse(maxDay);
     }
 
+    @Override
+    public List<Product> findPreMonthProductsByAddress(String address, String preMonth, List<Product> products) {
+        String[] replacements = new String[products.size()];
+        for (int i = 0; i < replacements.length; i++) {
+            replacements[i] = "?";
+        }
+        Object[] parameters = new Object[products.size() + 2];
+        parameters[0] = preMonth;
+        parameters[1] = address;
+        int j = 2;
+        for (Product product : products) {
+            parameters[j++] = product.getBusinessNo();
+        }
+
+        String replaceString = StringUtils.join(replacements, ",");
+        return getJdbcTemplate().query(STATISTIC_HISTORY_SQL + "having P.businessno in (" + replaceString + ")",
+                new ParameterizedRowMapper<Product>() {
+                    @Override
+                    public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
+                        Product product = new Product();
+                        product.setName(rs.getString("name"));
+                        product.setBusinessNo(rs.getString("businessno"));
+                        product.setTotalProfit(Math.round(rs.getDouble("totalprofit") * 100) / 100.00);
+                        return product;
+                    }
+                }, parameters);
+    }
 
 }
 
