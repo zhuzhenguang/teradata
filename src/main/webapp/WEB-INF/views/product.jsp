@@ -39,34 +39,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <%--<tr>
-                        <td>2000</td>
-                        <td><a>P1568</a></td>
-                        <td>福建省</td>
-                        <td>10</td>
-                        <td>12</td>
-                    </tr>
-                    <tr>
-                        <td>2001</td>
-                        <td><a>P1764</a></td>
-                        <td>北京</td>
-                        <td>5</td>
-                        <td>2</td>
-                    </tr>
-                    <tr>
-                        <td>2002</td>
-                        <td><a>P1536</a></td>
-                        <td>甘肃省</td>
-                        <td>10</td>
-                        <td>56</td>
-                    </tr>
-                    <tr>
-                        <td>3003</td>
-                        <td><a>P1393</a></td>
-                        <td>安徽省</td>
-                        <td>10</td>
-                        <td>12</td>
-                    </tr>--%>
                 </tbody>
             </table>
         </div>
@@ -83,26 +55,14 @@
                 <div class="modal-body">
                     <table class="table table-striped" id="product-purchase-table">
                         <thead>
-                        <tr>
-                            <th>销售日期</th>
-                            <th>客户姓名</th>
-                            <th>金额</th>
-                            <th>购买量</th>
-                        </tr>
+                            <tr>
+                                <th>销售日期</th>
+                                <th>客户姓名</th>
+                                <th>金额</th>
+                                <th>购买量</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <%--<tr>
-                            <td>2012/7/12</td>
-                            <td>易溥咸</td>
-                            <td>23.0</td>
-                            <td>12</td>
-                        </tr>
-                        <tr>
-                            <td>2012/7/12</td>
-                            <td>易溥咸</td>
-                            <td>23.0</td>
-                            <td>12</td>
-                        </tr>--%>
                         </tbody>
                     </table>
                 </div>
@@ -116,6 +76,7 @@
 
     <script src="${js}/jquery-1.10.2.min.js"></script>
     <script src="${js}/bootstrap.min.js"></script>
+    <script src="${js}/common.js"></script>
     <script src="${js}/product.js"></script>
 </body>
 </html>

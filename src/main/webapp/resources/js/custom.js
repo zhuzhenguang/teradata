@@ -2,26 +2,6 @@
  * Created by zhenguang.zhu on 14-1-21.
  */
 $(function() {
-    function createTd(value, needAnchor) {
-        if (needAnchor) {
-            return "<td><a>" + value + "</a></td>";
-        }
-        return "<td>" + value + "</td>";
-    }
-
-    function containerScroll(container, loadingObject, callback, offset) {
-        container.unbind('scroll').scroll(function(e) {
-            /*console.log(container.height());
-            console.log(container[0].scrollTop);
-            console.log(container[0].scrollHeight);*/
-            offset = offset || 0;
-            if (!loadingObject.loading &&
-                container.height() + container[0].scrollTop + offset >= container[0].scrollHeight) {
-                callback();
-            }
-        });
-    }
-
     /**
      * 用户列表
      */
@@ -67,7 +47,6 @@ $(function() {
                 });
 
                 $('table#user-list a').unbind('click').click(function(e) {
-                    console.log("1ci");
                     e.preventDefault();
 
                     var userName = $(e.target).text();
@@ -79,6 +58,8 @@ $(function() {
             }
         };
     }();
+
+    UserListObject.loadRemote();
 
     /**
      * 用户购买清单
@@ -101,7 +82,7 @@ $(function() {
                     self.reset();
                 }
 
-                console.log(initPage);
+                //console.log(initPage);
                 var saleData = {userId: self.userId, page: initPage};
                 var ajaxProp = {
                     url: ctx + "/user/sale/list",
@@ -112,7 +93,7 @@ $(function() {
                 };
 
                 $.ajax(ajaxProp).done(function(data) {
-                        console.log(data);
+                        //console.log(data);
                         var i, l = data.length;
                         for (i = 0; i < l; i++) {
                             var tds = createTd(data[i]['saleDate']) +
@@ -142,7 +123,5 @@ $(function() {
         };
 
     }();
-
-    UserListObject.loadRemote();
 
 });

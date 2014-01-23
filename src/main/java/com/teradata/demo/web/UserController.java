@@ -31,7 +31,7 @@ public class UserController {
         return userService.findUsers(page);
     }
 
-    @RequestMapping(value = "user/sale/list", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/user/sale/list", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<Sale> listSaleByUser(@RequestBody UserVO userVO) {
         return saleService.findGoodsByUser(userVO.getUserId(), userVO.getPage());
     }
