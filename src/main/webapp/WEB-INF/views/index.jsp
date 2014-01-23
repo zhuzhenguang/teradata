@@ -30,45 +30,16 @@
     <div class="display">
         <table class="table table-striped" id="user-list">
             <thead>
-            <tr>
-                <th>编号</th>
-                <th>姓名</th>
-                <th>家庭住址</th>
-                <th>生日</th>
-                <th>性别</th>
-            </tr>
+                <tr>
+                    <th>编号</th>
+                    <th>姓名</th>
+                    <th>家庭住址</th>
+                    <th>生日</th>
+                    <th>性别</th>
+                </tr>
             </thead>
 
-
             <tbody>
-<%--            <tr>
-                <td>1000</td>
-                <td><a>易溥咸</a></td>
-                <td>福建省</td>
-                <td>1966/10/26</td>
-                <td>男</td>
-            </tr>
-            <tr>
-                <td>1001</td>
-                <td><a>庞宋昌</a></td>
-                <td>北京</td>
-                <td>1977/12/24</td>
-                <td>女</td>
-            </tr>
-            <tr>
-                <td>1002</td>
-                <td><a>廖胥石</a></td>
-                <td>甘肃省</td>
-                <td>1962/4/16</td>
-                <td>男</td>
-            </tr>
-            <tr>
-                <td>1003</td>
-                <td><a>东方隗聂</a></td>
-                <td>安徽省</td>
-                <td>1987/5/5</td>
-                <td>男</td>
-            </tr>--%>
             </tbody>
         </table>
     </div>
@@ -82,29 +53,17 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="purchaselist-label">XX购买清单</h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="">
                 <table class="table table-striped" id="user-purchase-table">
                     <thead>
-                    <tr>
-                        <th>购买日期</th>
-                        <th>商品名称</th>
-                        <th>单价</th>
-                        <th>数量</th>
-                    </tr>
+                        <tr>
+                            <th>购买日期</th>
+                            <th>商品名称</th>
+                            <th>单价</th>
+                            <th>数量</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <%--<tr>
-                        <td>2012/7/12</td>
-                        <td>P1675</td>
-                        <td>23.0</td>
-                        <td>12</td>
-                    </tr>
-                    <tr>
-                        <td>2012/7/12</td>
-                        <td>P1675</td>
-                        <td>23.0</td>
-                        <td>12</td>
-                    </tr>--%>
                     </tbody>
                 </table>
             </div>
