@@ -20,10 +20,10 @@ public class SaleDaoImpl extends ExcelDaoImpl implements SaleDao {
             "VALUES(:userBusinessNo, :productBusinessNo, :saleDate, :sum, :count)";
 
     private static final String FIND_GOODS_SQL = "SELECT S.saledate, S.sum, S.count, P.name, P.type, P.unit " +
-            "FROM T_SALE S, T_PRODUCT P WHERE S.userbusinessno = ? and S.productbusinessno=P.businessno LIMIT ?,?";
+            "FROM T_SALE S, T_PRODUCT P WHERE S.userbusinessno = ? and S.productbusinessno=P.businessno ORDER BY P.businessno LIMIT ?,?";
 
     private static final String FIND_DETAIL_SQL = "SELECT U.name, S.saledate, S.count, S.sum * S.count as totalsum " +
-            "FROM T_SALE S, T_USER U WHERE S.userbusinessno=U.businessno and S.productbusinessno=? LIMIT ?,?";
+            "FROM T_SALE S, T_USER U WHERE S.userbusinessno=U.businessno and S.productbusinessno=? ORDER BY U.businessno LIMIT ?,?";
 
     @Override
     protected String getSQL() {
