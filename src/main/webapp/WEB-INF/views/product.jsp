@@ -18,7 +18,7 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="${ctx}">Home</a></li>
+                    <li><a href="${ctx}">用户列表</a></li>
                     <li class="active"><a href="${ctx}/product">商品</a></li>
                     <li><a href="${ctx}/statistic">统计</a></li>
                 </ul>

@@ -46,7 +46,7 @@ public class Application {
     @Bean
     JdbcTemplate jdbcTemplate(DataSource dataSource) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        //jdbcTemplate.execute("runscript from 'classpath:/schema.sql'");
+        jdbcTemplate.execute("runscript from 'classpath:/schema.sql'");
         //jdbcTemplate.execute("runscript from 'classpath:/data.sql'");
         return jdbcTemplate;
     }

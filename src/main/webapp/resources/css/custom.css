@@ -6,6 +6,10 @@ a {cursor: pointer;}
 .current_month {background-color:rgba(220,220,220,0.5); border: thick solid rgba(220,220,220,1); width: 80px; height: 30px; margin-bottom: 10px;}
 .previous_month {background-color:rgba(151,187,205,0.5); border: thick solid rgba(151,187,205,1); width: 80px; height: 30px;}
 .modal-body{height: 400px;overflow: auto;}
+#upload-excle-container .modal-body{height: 150px;}
+iframe#uploadFrame{display: none;height: 0;width: 0}
+div.upload-tip {position: absolute;right: 5px;bottom: 0; display: none;}
+
 /*
 .chart-container {
     box-sizing: border-box;

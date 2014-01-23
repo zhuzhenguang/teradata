@@ -18,10 +18,13 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="${ctx}">Home</a></li>
+                <li class="active"><a href="${ctx}">用户列表</a></li>
                 <li><a href="${ctx}/product">商品清单</a></li>
                 <li><a href="${ctx}/statistic">统计</a></li>
             </ul>
+            <form class="navbar-form navbar-right" role="form">
+                <button class="btn btn-info" id="uploadExcel">上传Excel</button>
+            </form>
         </div>
     </div>
 </div>
@@ -53,7 +56,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="purchaselist-label">XX购买清单</h4>
             </div>
-            <div class="modal-body" id="">
+            <div class="modal-body">
                 <table class="table table-striped" id="user-purchase-table">
                     <thead>
                         <tr>
@@ -70,10 +73,44 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
-            <form action="#" id="participate_form"></form>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<div class="modal fade" id="upload-excle-container" tabindex="-1" role="dialog"
+     aria-labelledby="purchaselist-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="upload-label">选择Excel上传</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" action="${ctx}/excel/upload" id="uploadForm" method="post"
+                      target="uploadFrame" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="excel">选择文件</label>
+                        <input type="file" name="file" id="excel">
+                        <p class="help-block">选择Excel文件格式</p>
+                    </div>
+                    <button type="submit" class="btn btn-default" id="upload-excel">上传</button>
+                    <iframe id="uploadFrame" name="uploadFrame"></iframe>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="alert alert-info upload-tip" id="upload-load">
+    正在上传，请稍后。。。
+</div>
+
+<div class="alert alert-success upload-tip" id="upload-success">
+    上传成功
+</div>
 
 <script src="${js}/jquery-1.10.2.min.js"></script>
 <script src="${js}/bootstrap.min.js"></script>

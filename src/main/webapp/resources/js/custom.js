@@ -5,7 +5,7 @@ $(function() {
     /**
      * 用户列表
      */
-    var UserListObject = function () {
+    $.UserListObject = function () {
         var initPage = {"from": 0, "rows": 15};
 
         return {
@@ -59,7 +59,7 @@ $(function() {
         };
     }();
 
-    UserListObject.loadRemote();
+    $.UserListObject.loadRemote();
 
     /**
      * 用户购买清单
@@ -123,5 +123,17 @@ $(function() {
         };
 
     }();
+
+    $('#uploadExcel').click(function(e) {
+        e.preventDefault();
+        $('#upload-excle-container').modal();
+    });
+
+    $('#upload-excel').click(function (e) {
+        e.preventDefault();
+        $('#upload-excle-container').modal('hide');
+        $('#upload-load').show();
+        $('#uploadForm').submit();
+    });
 
 });
