@@ -1,9 +1,7 @@
 package com.teradata.demo.service.impl;
 
-import com.teradata.demo.dao.ExcelDao;
-import com.teradata.demo.dao.ProductDao;
-import com.teradata.demo.dao.SaleDao;
-import com.teradata.demo.dao.UserDao;
+import com.teradata.demo.dao.*;
+import com.teradata.demo.entity.Address;
 import com.teradata.demo.service.ExcelService;
 import com.teradata.demo.service.SheetHandler;
 import com.teradata.demo.utils.excel.XSSFSheetXMLHandler;
@@ -31,6 +29,7 @@ public class ExcelServiceImpl implements ExcelService {
     private UserDao userDao;
     private ProductDao productDao;
     private SaleDao saleDao;
+    private AddressDao addressDao;
 
     @Override
     public void parse(InputStream excelStream) {
@@ -46,8 +45,15 @@ public class ExcelServiceImpl implements ExcelService {
                             "org.apache.xerces.parsers.SAXParser"
                     );
             for (String sheetId : SHEET_IDS) {
-                ExcelDao excelDao = getExcelDao(sheetId);
-                if (excelDao != null) {
+                XSSFSheetXMLHandler handler = getXMLHandler(sheetId, strings, styles);
+                if (handler != null) {
+                    parser.setContentHandler(handler);
+                    InputStream sheetStream = xssfReader.getSheet(sheetId);
+                    InputSource sheetSource = new InputSource(sheetStream);
+                    parser.parse(sheetSource);
+                    sheetStream.close();
+                }
+                /*if (excelDao != null) {
                     XSSFSheetXMLHandler handler = new XSSFSheetXMLHandler(styles, strings,
                             SheetHandler.get(sheetId, excelDao), false);
                     parser.setContentHandler(handler);
@@ -55,7 +61,7 @@ public class ExcelServiceImpl implements ExcelService {
                     InputSource sheetSource = new InputSource(sheetStream);
                     parser.parse(sheetSource);
                     sheetStream.close();
-                }
+                }*/
 
             }
 
@@ -65,13 +71,25 @@ public class ExcelServiceImpl implements ExcelService {
         }
     }
 
-    private ExcelDao getExcelDao(String sheetId) {
+/*    private ExcelDao getExcelDao(String sheetId) {
         if ("rId2".equals(sheetId)) {
             return userDao;
         } else if ("rId3".equals(sheetId)) {
             return productDao;
         } else if ("rId4".equals(sheetId)) {
             return saleDao;
+        } else {
+            return null;
+        }
+    }*/
+
+    private XSSFSheetXMLHandler getXMLHandler(String sheetId, ReadOnlySharedStringsTable strings, StylesTable styles) {
+        if ("rId2".equals(sheetId)) {
+            return new XSSFSheetXMLHandler(styles, strings, SheetHandler.get(sheetId, userDao, addressDao), false);
+        } else if ("rId3".equals(sheetId)) {
+            return new XSSFSheetXMLHandler(styles, strings, SheetHandler.get(sheetId, productDao), false);
+        } else if ("rId4".equals(sheetId)) {
+            return new XSSFSheetXMLHandler(styles, strings, SheetHandler.get(sheetId, saleDao), false);
         } else {
             return null;
         }
@@ -87,5 +105,9 @@ public class ExcelServiceImpl implements ExcelService {
 
     public void setSaleDao(SaleDao saleDao) {
         this.saleDao = saleDao;
+    }
+
+    public void setAddressDao(AddressDao addressDao) {
+        this.addressDao = addressDao;
     }
 }

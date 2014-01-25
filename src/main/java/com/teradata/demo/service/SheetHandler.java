@@ -1,15 +1,16 @@
 package com.teradata.demo.service;
 
+import com.teradata.demo.dao.AddressDao;
 import com.teradata.demo.dao.ExcelDao;
+import com.teradata.demo.dao.ProductDao;
+import com.teradata.demo.dao.UserDao;
+import com.teradata.demo.entity.Address;
 import com.teradata.demo.utils.excel.XSSFSheetXMLHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * sheet处理器
@@ -21,22 +22,35 @@ public abstract class SheetHandler implements XSSFSheetXMLHandler.SheetContentsH
     protected static final int BATCH_SIZE = 1000;
 
     private ExcelDao excelDao;
+    private ExcelDao[] excelDaos;
 
     protected boolean available = false;
     protected List<Map<String, Object>> values = new ArrayList<Map<String, Object>>();
     protected Map<String, Object> value = null;
 
+
     protected SheetHandler(ExcelDao excelDao) {
         this.excelDao = excelDao;
     }
 
+    protected SheetHandler(ExcelDao... excelDao) {
+        this.excelDaos = excelDao;
+    }
+
     public static SheetHandler get(String sheetId, ExcelDao excelDao) {
-        if ("rId2".equals(sheetId)) {
-            return new UserSheetHandler(excelDao);
-        } else if ("rId3".equals(sheetId)) {
+        if ("rId3".equals(sheetId)) {
             return new ProductSheetHandler(excelDao);
         } else if ("rId4".equals(sheetId)) {
             return new SaleSheetHandler(excelDao);
+        } else {
+            logger.error("没有{}对应的sheet", sheetId);
+            return null;
+        }
+    }
+
+    public static SheetHandler get(String sheetId, ExcelDao... excelDao) {
+        if ("rId2".equals(sheetId)) {
+            return new UserSheetHandler(excelDao);
         } else {
             logger.error("没有{}对应的sheet", sheetId);
             return null;
@@ -68,10 +82,17 @@ public abstract class SheetHandler implements XSSFSheetXMLHandler.SheetContentsH
     protected ExcelDao getExcelDao() {
         return excelDao;
     }
+
+    protected ExcelDao[] getExcelDaos() {
+        return excelDaos;
+    }
 }
 
 class UserSheetHandler extends SheetHandler {
     private static Map<String, String> COLUMN_MAP = new HashMap<String, String>(5);
+    private Set<String> addresses = new HashSet<String>();
+    private UserDao userDao;
+    private AddressDao addressDao;
 
     static {
         COLUMN_MAP.put("A", "businessNo");
@@ -81,8 +102,14 @@ class UserSheetHandler extends SheetHandler {
         COLUMN_MAP.put("E", "sex");
     }
 
-    UserSheetHandler(ExcelDao excelDao) {
-        super(excelDao);
+    UserSheetHandler(ExcelDao... excelDao) {
+        for (ExcelDao dao : excelDao) {
+            if (dao instanceof UserDao) {
+                userDao = (UserDao) dao;
+            } else if (dao instanceof AddressDao) {
+                addressDao = (AddressDao) dao;
+            }
+        }
     }
 
     @Override
@@ -105,6 +132,38 @@ class UserSheetHandler extends SheetHandler {
             String index = cellReference.substring(0, 1);
             value.put(COLUMN_MAP.get(index), StringUtils.defaultString(formattedValue));
         }
+    }
+
+    @Override
+    public void endRow() {
+        if (!available || StringUtils.isBlank((CharSequence) value.get("businessNo")))
+            return;
+
+        if (values.size() < BATCH_SIZE) {
+            values.add(value);
+        } else {
+            userDao.insert(values.toArray(new HashMap[values.size()]));
+            values.clear();
+        }
+
+        String addressName = (String) value.get("address");
+        if (StringUtils.isNotBlank(addressName)) {
+            addresses.add(addressName);
+        }
+    }
+
+    @Override
+    public void end() {
+        userDao.insert(values.toArray(new HashMap[values.size()]));
+
+        Map<String, Object>[] addressMaps = new HashMap[addresses.size()];
+        int i = 0;
+        for (String address: addresses) {
+            Map<String, Object> addressMap = new HashMap<String, Object>(1);
+            addressMap.put("name", address);
+            addressMaps[i++] = addressMap;
+        }
+        addressDao.insert(addressMaps);
     }
 
 }
@@ -149,6 +208,7 @@ class ProductSheetHandler extends SheetHandler {
             }
         }
     }
+
 }
 
 class SaleSheetHandler extends SheetHandler {

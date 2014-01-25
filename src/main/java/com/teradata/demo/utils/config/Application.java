@@ -1,8 +1,10 @@
 package com.teradata.demo.utils.config;
 
+import com.teradata.demo.dao.AddressDao;
 import com.teradata.demo.dao.ProductDao;
 import com.teradata.demo.dao.SaleDao;
 import com.teradata.demo.dao.UserDao;
+import com.teradata.demo.dao.impl.AddressDaoImpl;
 import com.teradata.demo.dao.impl.ProductDaoImpl;
 import com.teradata.demo.dao.impl.SaleDaoImpl;
 import com.teradata.demo.dao.impl.UserDaoImpl;
@@ -83,11 +85,19 @@ public class Application {
     }
 
     @Bean
+    public AddressDao addressDao() {
+        AddressDaoImpl addressDao = new AddressDaoImpl();
+        addressDao.setJdbcTemplate(jdbcTemplate(dataSource()));
+        return addressDao;
+    }
+
+    @Bean
     public ExcelService excelService() {
         ExcelServiceImpl excelService = new ExcelServiceImpl();
         excelService.setProductDao(productDao());
         excelService.setSaleDao(saleDao());
         excelService.setUserDao(userDao());
+        excelService.setAddressDao(addressDao());
         return excelService;
     }
 
