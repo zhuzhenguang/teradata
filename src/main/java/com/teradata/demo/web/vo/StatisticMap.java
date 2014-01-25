@@ -24,6 +24,9 @@ public class StatisticMap {
     }
 
     public StatisticMap(StatisticProducts statisticProducts) {
+        if (statisticProducts == null) {
+            return;
+        }
         setTopMonth(statisticProducts.getMaxMonth());
         setPreMonth(statisticProducts.getPreviousMonth());
         for (Product product : statisticProducts.getMaxTopProductList()) {

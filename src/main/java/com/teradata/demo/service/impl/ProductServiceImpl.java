@@ -29,6 +29,9 @@ public class ProductServiceImpl implements ProductService {
     //@Transactional(readOnly = true)
     public StatisticProducts findTopProductsByAddressMonth(String address, Page page) {
         DateTime maxDateTime = productDao.getMaxDay(address);
+        if (maxDateTime == null) {
+            return null;
+        }
         String previousMonthDay = maxDateTime.minus(Period.months(1)).toString(DATE_STYLE);
         String maxMonthDay = maxDateTime.toString(DATE_STYLE);
 

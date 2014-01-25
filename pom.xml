@@ -183,6 +183,7 @@
                     <server>tomcat-development-server</server>
                     <port>8080</port>
                     <path>/teradata</path>
+                    <uriEncoding>UTF-8</uriEncoding>
                 </configuration>
             </plugin>
         </plugins>

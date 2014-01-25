@@ -10,10 +10,7 @@ import com.teradata.demo.dao.impl.SaleDaoImpl;
 import com.teradata.demo.dao.impl.UserDaoImpl;
 import com.teradata.demo.entity.User;
 import com.teradata.demo.service.*;
-import com.teradata.demo.service.impl.ExcelServiceImpl;
-import com.teradata.demo.service.impl.ProductServiceImpl;
-import com.teradata.demo.service.impl.SaleServiceImpl;
-import com.teradata.demo.service.impl.UserServiceImpl;
+import com.teradata.demo.service.impl.*;
 import com.teradata.demo.web.ExcelController;
 import com.teradata.demo.web.UserController;
 import org.springframework.context.annotation.Bean;
@@ -48,7 +45,7 @@ public class Application {
     @Bean
     JdbcTemplate jdbcTemplate(DataSource dataSource) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        jdbcTemplate.execute("runscript from 'classpath:/schema.sql'");
+        //jdbcTemplate.execute("runscript from 'classpath:/schema.sql'");
         //jdbcTemplate.execute("runscript from 'classpath:/data.sql'");
         return jdbcTemplate;
     }
@@ -120,6 +117,13 @@ public class Application {
         SaleServiceImpl saleService = new SaleServiceImpl();
         saleService.setSaleDao(saleDao());
         return saleService;
+    }
+
+    @Bean
+    public AddressService addressService() {
+        AddressServiceImpl addressService = new AddressServiceImpl();
+        addressService.setAddressDao(addressDao());
+        return addressService;
     }
 
     /*@Bean

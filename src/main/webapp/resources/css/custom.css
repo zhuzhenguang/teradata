@@ -1,6 +1,7 @@
 body {padding-top: 50px;padding-bottom: 20px;font-family: "微软雅黑","Helvetica Neue",Helvetica,Arial,sans-serif;}
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {font-family: "微软雅黑","Helvetica Neue",Helvetica,Arial,sans-serif;}
 .display {margin: 20px 0; height: 400px; overflow: auto;position: relative;}
+.statistic_display {margin: 20px 0;position: relative;}
 a {cursor: pointer;}
 .search_condition {padding-top: 20px;}
 .current_month {background-color:rgba(220,220,220,0.5); border: thick solid rgba(220,220,220,1); width: 80px; height: 30px; margin-bottom: 10px;}

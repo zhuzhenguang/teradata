@@ -88,6 +88,9 @@ public class ProductDaoImpl extends ExcelDaoImpl implements ProductDao {
     public DateTime getMaxDay(String address) {
         String maxDay = getJdbcTemplate().queryForObject(STATISTIC_MONTH,
                 new ParameterizedSingleColumnRowMapper<String>(), address);
+        if (StringUtils.isBlank(maxDay)) {
+            return null;
+        }
         return DateTime.parse(maxDay);
     }
 
