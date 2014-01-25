@@ -2,7 +2,7 @@
  * Created by zhu on 14-1-22.
  */
 $(function() {
-    var data = {"from": "0", "rows": "10"};
+    /*var data = {"from": "0", "rows": "10"};
 
     function bindProductList() {
         $('table#product-list a').unbind('click').click(function(e) {
@@ -34,17 +34,19 @@ $(function() {
 
         });
     }
-    bindProductList();
+    bindProductList();*/
 
     /**
-     * 用户列表
+     * 商品列表
      */
     var ProductListObject = function () {
         var initPage = {"from": 0, "rows": 15};
-        var userBody = $('table#product-list tbody');
+        var productBody = $('table#product-list tbody');
+        var productList = $('#product-list');
 
         return {
             loading: true,
+            loadingObject: $('.loading'),
 
             loadRemote: function () {
                 var ajaxProp = {
@@ -55,18 +57,24 @@ $(function() {
                     dataType: "json"
                 };
                 var self = this;
+                self.loadingObject.removeClass('hide');
 
                 $.ajax(ajaxProp).done(function(data) {
                     var i, l = data.length;
+                    if (l > 0 && productList.hasClass('hide')) {
+                        $('.no-data').addClass('hide');
+                        productList.removeClass('hide');
+                    }
                     for (i = 0; i < l; i++) {
                         var tds = createTd(data[i]['businessNo']) +
                             createTd(data[i]['name'], true) +
                             createTd(data[i]['peoples']) +
                             createTd(data[i]['totalSum']) +
                             createTd(data[i]['totalProfit']);
-                        userBody.append("<tr>" + tds + "</tr>");
+                        productBody.append("<tr>" + tds + "</tr>");
                     }
                     self.loading = false;
+                    self.loadingObject.addClass('hide');
                     self.register();
                 });
             },
@@ -88,7 +96,6 @@ $(function() {
                     $('h4#product-label').text(productName + "的购买清单");
 
                     var productId = $(e.target).parent('td').prev().text();
-                    //UserSalesObject.loadRemote(userId);
                     ProductSalesObject.loadRemote(productId);
                 });
             }
@@ -98,7 +105,7 @@ $(function() {
     ProductListObject.loadRemote();
 
     /**
-     * 用户购买清单
+     * 商品购买清单
      */
     var ProductSalesObject = function() {
         var initPage = {"from": 0, "rows": 10};
@@ -107,6 +114,7 @@ $(function() {
 
         return {
             loading: true,
+            loadingObject: $('.loading'),
 
             productId: '',
 
@@ -125,8 +133,7 @@ $(function() {
                     contentType: "application/json",
                     dataType: "json"
                 };
-
-                console.log(ajaxProp);
+                self.loadingObject.removeClass('hide');
 
                 $.ajax(ajaxProp).done(function(data) {
                         var i, l = data.length;
@@ -138,6 +145,7 @@ $(function() {
                             productBody.append("<tr>" + tds + "</tr>");
                         }
                         self.loading = false;
+                        self.loadingObject.addClass('hide');
 
                         containerScroll($('.modal-body'), self, function() {
                             self.loading = true;

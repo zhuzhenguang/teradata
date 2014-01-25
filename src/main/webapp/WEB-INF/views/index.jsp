@@ -23,7 +23,9 @@
                 <li><a href="${ctx}/statistic">统计</a></li>
             </ul>
             <form class="navbar-form navbar-right" role="form">
-                <button class="btn btn-info" id="uploadExcel">上传Excel</button>
+                <button class="btn btn-info" id="uploadExcel">
+                    <span class="glyphicon glyphicon-upload"></span>上传Excel
+                </button>
             </form>
         </div>
     </div>
@@ -31,7 +33,7 @@
 
 <div class="container">
     <div class="display">
-        <table class="table table-striped" id="user-list">
+        <table class="table table-striped hide" id="user-list">
             <thead>
                 <tr>
                     <th>编号</th>
@@ -45,9 +47,16 @@
             <tbody>
             </tbody>
         </table>
+
+        <div class="text-center no-data">
+            <h1>没有数据，请先上传数据文件</h1>
+        </div>
+
+        <div class="loading hide"></div>
     </div>
 </div>
 
+<%--用户购买清单--%>
 <div class="modal fade" id="user-purchase-list" tabindex="-1" role="dialog"
      aria-labelledby="purchaselist-label" aria-hidden="true">
     <div class="modal-dialog">
@@ -77,6 +86,7 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<%--上传文件--%>
 <div class="modal fade" id="upload-excle-container" tabindex="-1" role="dialog"
      aria-labelledby="purchaselist-label" aria-hidden="true">
     <div class="modal-dialog">
@@ -115,6 +125,6 @@
 <script src="${js}/jquery-1.10.2.min.js"></script>
 <script src="${js}/bootstrap.min.js"></script>
 <script src="${js}/common.js"></script>
-<script src="${js}/custom.js"></script>
+<script src="${js}/user.js"></script>
 </body>
 </html>

@@ -28,7 +28,7 @@
 
     <div class="container">
         <div class="display">
-            <table class="table table-striped" id="product-list">
+            <table class="table table-striped hide" id="product-list">
                 <thead>
                     <tr>
                         <th>编号</th>
@@ -41,6 +41,12 @@
                 <tbody>
                 </tbody>
             </table>
+
+            <div class="text-center no-data">
+                <h1>没有数据，请先上传数据文件</h1>
+            </div>
+
+            <div class="loading hide"></div>
         </div>
     </div>
 

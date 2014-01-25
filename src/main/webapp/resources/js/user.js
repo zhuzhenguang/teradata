@@ -7,11 +7,14 @@ $(function() {
      */
     $.UserListObject = function () {
         var initPage = {"from": 0, "rows": 15};
+        var userList = $('#user-list');
 
         return {
             loading: true,
+            loadingObject: $('.loading'),
 
             loadRemote: function () {
+                this.loadingObject.removeClass('hide');
                 var ajaxProp = {
                     url: ctx + "/user/list",
                     type: 'POST',
@@ -23,6 +26,10 @@ $(function() {
 
                 $.ajax(ajaxProp).done(function(data) {
                     var i, l = data.length, userBody = $('table#user-list tbody');
+                    if (l > 0 && userList.hasClass('hide')) {
+                        $('.no-data').addClass('hide');
+                        userList.removeClass('hide');
+                    }
                     for (i = 0; i < l; i++) {
                         var tds = createTd(data[i]['businessNo']) +
                             createTd(data[i]['name'], true) +
@@ -32,6 +39,7 @@ $(function() {
                         userBody.append("<tr>" + tds + "</tr>");
                     }
                     self.loading = false;
+                    self.loadingObject.addClass('hide');
                     self.register();
                 });
             },
@@ -71,18 +79,17 @@ $(function() {
 
         return {
             loading: true,
-
+            loadingObject: $('.loading'),
             userId: '',
 
             loadRemote: function(userId) {
-
                 var self = this;
                 if (userId) {
                     self.userId = userId;
                     self.reset();
                 }
+                this.loadingObject.removeClass('hide');
 
-                //console.log(initPage);
                 var saleData = {userId: self.userId, page: initPage};
                 var ajaxProp = {
                     url: ctx + "/user/sale/list",
@@ -93,7 +100,6 @@ $(function() {
                 };
 
                 $.ajax(ajaxProp).done(function(data) {
-                        //console.log(data);
                         var i, l = data.length;
                         for (i = 0; i < l; i++) {
                             var tds = createTd(data[i]['saleDate']) +
@@ -103,6 +109,7 @@ $(function() {
                             userBody.append("<tr>" + tds + "</tr>");
                         }
                         self.loading = false;
+                        self.loadingObject.addClass('hide');
 
                         containerScroll($('.modal-body'), self, function() {
                             self.loading = true;
@@ -124,13 +131,24 @@ $(function() {
 
     }();
 
+    /**
+     * 弹出上传窗口
+     */
     $('#uploadExcel').click(function(e) {
         e.preventDefault();
         $('#upload-excle-container').modal();
     });
 
+    /**
+     * 上传文件
+     */
     $('#upload-excel').click(function (e) {
         e.preventDefault();
+        var file = $("input[type='file']");
+        if (!file.val() || $.trim(file.val()) == '' ||
+            (!/(\.xls)$/.test(file.val()) && !/(\.xlsx)$/.test(file.val()))) {
+            return;
+        }
         $('#upload-excle-container').modal('hide');
         $('#upload-load').show();
         $('#uploadForm').submit();
